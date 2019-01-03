@@ -1,0 +1,25 @@
+{{#if user}}
+
+    <h2 class="main-header">Private Registry Manager</h2>
+
+    <pre>npm set {{registry.scope}}:registry {{registry.url}}
+npm adduser --registry {{registry.scope}}</pre>
+
+{{else}}
+
+    <h2 class="main-header">Log in</h2>
+
+    <form action="/webauth-login" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" value="{{form.username}}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+
+{{/if}}

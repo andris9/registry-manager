@@ -1,0 +1,82 @@
+<div class="main-header"></div>
+
+<div class="float-right">
+    <a href="/webauth-users/new" class="btn btn-primary">Add user</a>
+</div>
+
+<h2>Users</h2>
+
+<p class="lead">
+    Manage service users
+</p>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/webauth-users">List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/webauth-users/new">Add user</a>
+    </li>
+</ul>
+
+<div class="mt-3"></div>
+
+<form action="/webauth-users/new" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf}}" />
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" autocomplete="off" class="form-control {{#if errors.username}}is-invalid{{/if}}" id="username" name="username" placeholder="Enter username" value="{{form.username}}">
+        {{#if errors.username}}
+            <div class="invalid-feedback">
+                {{errors.username}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label for="username">Tags</label>
+        <input type="text" autocomplete="off" class="form-control {{#if errors.tags}}is-invalid{{/if}}" id="tags" name="tags" placeholder="Comma separated tags" value="{{form.tags}}">
+        <small class="form-text text-muted">Comma separated tags. Use <code>admin</code> for privileged accounts or <code>publish</code> for publish rights</small>
+        {{#if errors.tags}}
+            <div class="invalid-feedback">
+                {{errors.tags}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" autocomplete="off" class="form-control {{#if errors.password}}is-invalid{{/if}}" id="password" name="password" placeholder="Password">
+        {{#if errors.password}}
+            <div class="invalid-feedback">
+                {{errors.password}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label for="password2">Password 2x</label>
+        <input type="password" autocomplete="off" class="form-control {{#if errors.password2}}is-invalid{{/if}}" id="password2" name="password2" placeholder="Repeat password">
+        {{#if errors.password2}}
+            <div class="invalid-feedback">
+                {{errors.password2}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input {{#if errors.enabled}}is-invalid{{/if}}" type="checkbox" value="on" id="enabled" name="enabled" {{#if form.enabled}}checked{{/if}}>
+            <label class="form-check-label" for="enabled">
+                User is enabled
+            </label>
+            {{#if errors.enabled}}
+                <div class="invalid-feedback">
+                    {{errors.enabled}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create an account</button>
+</form>

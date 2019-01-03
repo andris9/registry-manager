@@ -1,0 +1,15 @@
+[www]
+    host = "127.0.0.1"
+    port = 5050
+    postsize = "5MB"
+
+    cookieName = "AUTH_PROXY_SESS"
+    csrfCookie = "AUTH_PROXY_CSRF"
+
+[users]
+    # must be readable/writable by application
+    db="test/users.json"
+
+[registry]
+    scope="@myscope"
+    url="http://localhost:4873"

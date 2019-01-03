@@ -1,0 +1,113 @@
+<div class="main-header"></div>
+
+<div class="float-right">
+    <a href="/webauth-users/new" class="btn btn-primary">Add user</a>
+</div>
+
+<h2>Users</h2>
+
+<p class="lead">
+    Manage service users
+</p>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/webauth-users">List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/webauth-users/new?username={{form.username}}&amp;t={{time}}">Edit user</a>
+    </li>
+</ul>
+
+<div class="mt-3"></div>
+
+<form action="/webauth-users/edit" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf}}" />
+    <input type="hidden" name="username" value="{{form.username}}" />
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" autocomplete="off" class="form-control" id="username" placeholder="Enter username" value="{{form.username}}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Tags</label>
+        <input type="text" autocomplete="off" class="form-control {{#if errors.tags}}is-invalid{{/if}}" id="tags" name="tags" placeholder="Comma separated tags" value="{{form.tags}}">
+        <small class="form-text text-muted">Comma separated tags. Use <code>admin</code> for privileged accounts or <code>publish</code> for publish rights</small>
+        {{#if errors.tags}}
+            <div class="invalid-feedback">
+                {{errors.tags}}
+            </div>
+        {{/if}}
+    </div>
+
+    <p>
+        Leave password fields empty if you do not want to change the password
+    </p>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" autocomplete="off" class="form-control {{#if errors.password}}is-invalid{{/if}}" id="password" name="password" placeholder="Password">
+        {{#if errors.password}}
+            <div class="invalid-feedback">
+                {{errors.password}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label for="password2">Password 2x</label>
+        <input type="password" autocomplete="off" class="form-control {{#if errors.password2}}is-invalid{{/if}}" id="password2" name="password2" placeholder="Repeat password">
+        {{#if errors.password2}}
+            <div class="invalid-feedback">
+                {{errors.password2}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input {{#if errors.enabled}}is-invalid{{/if}}" type="checkbox" value="on" id="enabled" name="enabled" {{#if form.enabled}} checked{{/if}}> <label class="form-check-label" for="enabled">
+            User is enabled
+            </label>
+            {{#if errors.enabled}}
+                <div class="invalid-feedback">
+                    {{errors.enabled}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="float-right">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+            Delete account
+        </button>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update account</button>
+</form>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user?
+            </div>
+            <div class="modal-footer">
+                <form action="/webauth-users/delete" method="post">
+                    <input type="hidden" name="_csrf" value="{{_csrf}}" />
+                    <input type="hidden" name="username" value="{{form.username}}" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, cancel</button>
+                    <button type="submit" class="btn btn-danger">Yes, delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

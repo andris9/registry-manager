@@ -1,0 +1,18 @@
+[Unit]
+Description=Auth Proxy server
+Requires=After=network.target
+
+[Service]
+User=registry-manager
+Group=registry-manager
+Environment="NODE_ENV=production"
+WorkingDirectory=/opt/registry-manager
+ExecStart=/usr/bin/node server.js --config=/etc/registry-manager/registry-manager.toml
+ExecReload=/bin/kill -HUP $MAINPID
+SyslogIdentifier=registry-manager
+Type=simple
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
