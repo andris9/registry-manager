@@ -1,5 +1,5 @@
 [Unit]
-Description=Auth Proxy server
+Description=Registry Manager server
 Requires=After=network.target
 
 [Service]
