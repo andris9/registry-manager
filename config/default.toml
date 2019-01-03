@@ -3,8 +3,8 @@
     port = 5050
     postsize = "5MB"
 
-    cookieName = "AUTH_PROXY_SESS"
-    csrfCookie = "AUTH_PROXY_CSRF"
+    cookieName = "REG_MANAGER_SESS"
+    csrfCookie = "REG_MANAGER_CSRF"
 
 [users]
     # must be readable/writable by application
