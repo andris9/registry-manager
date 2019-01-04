@@ -8,7 +8,7 @@
 
 [users]
     # must be readable/writable by application
-    db="test/users.json"
+    db="./config/users.json"
 
 [registry]
     scope="@myscope"
