@@ -41,6 +41,8 @@ User account entry includes a password field. By default it can contain a plaint
 -   Users with the `publish` tag can are allowed to publish packages.
 -   Users with the `bot` tag can not log in to the manager interface.
 
+Package access uses Verdaccion configuration (so anonymous access is possible if allowed). Package publishing is only allowed to users with `admin` or `publish` tags. Verdaccio configuration about publishing is ignored.
+
 ## License
 
 **ISC**
