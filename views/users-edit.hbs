@@ -33,7 +33,7 @@
     <div class="form-group">
         <label for="username">Tags</label>
         <input type="text" autocomplete="off" class="form-control {{#if errors.tags}}is-invalid{{/if}}" id="tags" name="tags" placeholder="Comma separated tags" value="{{form.tags}}">
-        <small class="form-text text-muted">Comma separated tags. Use <code>admin</code> for privileged accounts or <code>publish</code> for publish rights</small>
+        <small class="form-text text-muted">Comma separated tags. Use <code>admin</code> for privileged accounts, <code>publish</code> for publish rights and <code>bot</code> for system accounts</small>
         {{#if errors.tags}}
             <div class="invalid-feedback">
                 {{errors.tags}}

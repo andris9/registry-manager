@@ -322,13 +322,13 @@ webapp.get('/webauth-logout', (req, res) => {
             'set-cookie': encodeURIComponent(config.www.cookieName) + '=deleted; Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT'
         });
     }
-    res.redirect('/?t=' + Date.now());
+    res.redirect('/');
 });
 
 webapp.use('/webauth-users/delete', (req, res, next) => {
     if (!req.user || !req.user.tags.includes('admin')) {
         req.flash('error', 'Invalid permissions.', 'You do not have permissions to access restricted content');
-        return res.redirect('/?t=' + Date.now());
+        return res.redirect('/');
     }
 
     req.setActiveMenu('users');
@@ -380,13 +380,13 @@ webapp.post('/webauth-users/delete', (req, res) => {
     userStorage.delete(validation.value.username);
 
     req.flash('success', 'Success!', validation.value.username + ' was deleted from user storage');
-    res.redirect('/webauth-users?t=' + Date.now());
+    res.redirect('/webauth-users');
 });
 
 webapp.use('/webauth-users/edit', (req, res, next) => {
     if (!req.user || !req.user.tags.includes('admin')) {
         req.flash('error', 'Invalid permissions.', 'You do not have permissions to access restricted content');
-        return res.redirect('/?t=' + Date.now());
+        return res.redirect('/');
     }
 
     req.setActiveMenu('users');
@@ -410,7 +410,7 @@ webapp.get('/webauth-users/edit', (req, res) => {
 
     if (validation.error) {
         req.flash('error', 'Input fail.', 'Failed to validate input');
-        return res.redirect('/webauth-users?t=' + Date.now());
+        return res.redirect('/webauth-users');
     }
 
     let userData = userStorage.get(validation.value.username);
@@ -511,6 +511,9 @@ webapp.post('/webauth-users/edit', (req, res) => {
         if (!validation.value.enabled) {
             errors.enabled = 'Can not disable self';
         }
+        if (!existingData.tags.includes('bot') && tags.includes('bot')) {
+            errors.tags = 'Can not add "bot" tag to self';
+        }
         if (existingData.tags.includes('admin') && !tags.includes('admin')) {
             errors.tags = 'Can not remove "admin" tag from self';
         }
@@ -539,16 +542,16 @@ webapp.post('/webauth-users/edit', (req, res) => {
         req.flash('success', 'Success!', validation.value.username + ' was updated');
     } catch (err) {
         req.flash('error', 'Error!', err.message);
-        return res.redirect('/webauth-users/edit?username=' + encodeURIComponent(validation.value.username) + '&t=' + Date.now());
+        return res.redirect('/webauth-users/edit?username=' + encodeURIComponent(validation.value.username));
     }
 
-    res.redirect('/webauth-users?t=' + Date.now());
+    res.redirect('/webauth-users');
 });
 
 webapp.use('/webauth-users/new', (req, res, next) => {
     if (!req.user || !req.user.tags.includes('admin')) {
         req.flash('error', 'Invalid permissions.', 'You do not have permissions to access restricted content');
-        return res.redirect('/?t=' + Date.now());
+        return res.redirect('/');
     }
 
     req.setActiveMenu('users');
@@ -650,15 +653,15 @@ webapp.post('/webauth-users/new', (req, res) => {
         req.flash('success', 'Success!', validation.value.username + ' was created');
     } catch (err) {
         req.flash('error', 'Error!', err.message);
-        return res.redirect('/webauth-users/new?t=' + Date.now());
+        return res.redirect('/webauth-users/new');
     }
 
-    res.redirect('/webauth-users?t=' + Date.now());
+    res.redirect('/webauth-users');
 });
 
 webapp.use('/webauth-users/profile', (req, res, next) => {
-    if (!req.user) {
-        return res.redirect('/?t=' + Date.now());
+    if (!req.user || req.user.tags.includes('bot')) {
+        return res.redirect('/');
     }
 
     req.setActiveMenu('profile');
@@ -745,13 +748,13 @@ webapp.post('/webauth-users/profile', (req, res) => {
         req.flash('error', 'Error!', err.message);
     }
 
-    res.redirect('/webauth-users/profile?t=' + Date.now());
+    res.redirect('/webauth-users/profile');
 });
 
 webapp.use('/webauth-users', (req, res, next) => {
     if (!req.user || !req.user.tags.includes('admin')) {
         req.flash('error', 'Invalid permissions.', 'You do not have permissions to access restricted content');
-        return res.redirect('/?t=' + Date.now());
+        return res.redirect('/');
     }
 
     req.setActiveMenu('users');
@@ -822,6 +825,13 @@ webapp.post('/webauth-login', (req, res) => {
         });
     }
 
+    if (userData.tags.includes('bot')) {
+        return sendError({
+            title: 'Authentication failed!',
+            message: 'System accounts can not login here'
+        });
+    }
+
     let session = {
         id: crypto.randomBytes(20).toString('hex'),
         username,
@@ -835,7 +845,7 @@ webapp.post('/webauth-login', (req, res) => {
         'set-cookie': encodeURIComponent(config.www.cookieName) + '=' + encodeURIComponent(session.id) + '; Path=/; HttpOnly'
     });
 
-    res.redirect('/?t=' + Date.now());
+    res.redirect('/');
 });
 
 webapp.get('/', (req, res) => {
