@@ -2,6 +2,8 @@
 
 User manager for [Verdaccio](https://verdaccio.org/). Requires [regman plugin](https://github.com/andris9/verdaccio-regman) to be used for Verdaccio authentication.
 
+[SREENSHOTS](https://cloudup.com/cL7FQ4fmzdP)
+
 ## Installation
 
 ```
