@@ -3,7 +3,7 @@
     <h2 class="main-header">Private Registry Manager</h2>
 
     <pre>npm set {{registry.scope}}:registry {{registry.url}}
-npm adduser --registry {{registry.scope}}</pre>
+npm adduser --registry={{registry.url}} --scope={{registry.scope}}</pre>
 
     <p>
         Requires <a href="https://github.com/andris9/verdaccio-regman">regman plugin</a> for Verdaccio.
